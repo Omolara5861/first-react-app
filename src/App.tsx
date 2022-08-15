@@ -1,31 +1,57 @@
-import styled from "styled-components";
-import { Item } from "./components/Elements";
+import { useState } from 'react';
+import styled from 'styled-components';
+import { Item } from './components/Elements';
 
 const Title = styled.h1`
-  font-size: 1.5em;
-  text-align: center;
-  color: palevioletred;
+    font-size: 1.5em;
+    text-align: center;
+    color: palevioletred;
 `;
 
 const Subtitle = styled(Title)`
-  color: darkgreen;
+    color: darkgreen;
 `;
 
-const lists = [{
-  completed: false,
-  title: 'Learn React',
-  content: 'Lerning React from Professor Brighten'
-}]
+export interface List {
+    completed: boolean;
+    title: string;
+    content?: string;
+}
+
+const list: List[]  = [
+    {
+        completed: false,
+        title: 'Learn React',
+        content: 'Learning React from Professor Brighten',
+    },
+    { 
+        completed: false,
+        title: 'Learn TypeScript',
+    },
+    {
+        completed: false,
+        title: 'Learn Styled Components',
+    },
+];
 
 export const App = () => {
-  return (
-    <div>
-     <Title>Todo List</Title>
-   
-      {lists.map((item) => {
-        return <Item completed={item.completed} title={item.title} content={item.content}/>
-      })}
 
-    </div>
-  );
-}
+    const [todoList, setTodoList] = useState(list);
+    return (
+        <div>
+            <Title>Todo List</Title>
+
+            {todoList.map((item: List) => {
+                return (
+                    <Item
+                        todoList={todoList}
+                        setTodoList={setTodoList}
+                        completed={item.completed}
+                        title={item.title}
+                        content={item.content}
+                    />
+                );
+            })}
+        </div>
+    );
+};
